@@ -39,6 +39,21 @@ def test_clue_api_shape():
     assert returned_keys == expected_keys
 
 def test_clue_params():
-    clue = jservice_api.clue(value=800, category=1)[0]
-    assert clue['value'] == 800
-    assert clue['category_id'] == 1
+    clues = jservice_api.clue(value=800, category=1)
+    for clue in clues:
+        assert clue['value'] == 800
+        assert clue['category_id'] == 1
+
+def test_clue_pagination():
+    clues = []
+    offset = 0
+    for i in range(4):
+        clues += jservice_api.clue(offset=offset)
+        offset += 1
+    assert len(clues) == 400 # Each page is 100
+
+
+
+
+
+

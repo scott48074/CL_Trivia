@@ -2,9 +2,8 @@
 """ The API callers to get the questions. See http://jservice.io/ for more information on the APi. """
 from typing import List, Dict, Union
 
-from requests.exceptions import HTTPError
 import requests
-import json
+from requests.exceptions import HTTPError
 
 
 # Type hints: returning a list of dictionaries or None in case of an error.
@@ -20,10 +19,11 @@ def clue(**params) -> Union[List[Dict[str, str]], None]:
     try:
         if params:
             params = {k: v for (k, v) in zip(params.keys(), params.items())}
-
+        if 'offset' not in params:
+            params['offset'] = 0
         r = requests.get('http://jservice.io/api/clues', params=params)
         r.raise_for_status()
-        return json.loads(r.text)
+        return r.json()
     except HTTPError as e:
         print(f'HTTP error: {e}')
     except Exception as e:
@@ -36,7 +36,7 @@ def random_clue(count: int = 1) -> Union[List[Dict[str, str]], None]:
         params = {'count': str(count)}
         r = requests.get('http://jservice.io/api/random', params=params)
         r.raise_for_status()
-        return json.loads(r.text)
+        return r.json()
     except HTTPError as e:
         print(f'HTTP error: {e}')
     except Exception as e:
