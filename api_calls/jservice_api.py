@@ -43,6 +43,18 @@ def random_clue(count: int = 1) -> Union[List[Dict[str, str]], None]:
         print(f'Error: {e}')
 
 
+def categories(count: int = 100, offset: int = 0) -> Union[List[Dict[str, str]], None]:
+    try:
+        params = {'count': str(count), 'offset': str(offset)}
+        r = requests.get('http://jservice.io/api/categories', params=params)
+        r.raise_for_status()
+        return r.json()
+    except HTTPError as e:
+        print(f'HTTP error: {e}')
+    except Exception as e:
+        print(f'Error: {e}')
+
+
 def main():
     pass
 
