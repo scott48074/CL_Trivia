@@ -9,7 +9,6 @@ def test_random_question_api_status():
     # Use pytest with the [-s] flag to print the errors in the console.
     assert random_clue
 
-
 def test_random_question_api_shape():
     # Making sure the shape of the API didn't change.
     random_clue = jservice_api.random_clue()[0]
@@ -49,11 +48,7 @@ def test_clue_pagination():
     offset = 0
     for i in range(4):
         clues += jservice_api.clue(offset=offset)
-        offset += 1
+        offset += 100
     assert len(clues) == 400 # Each page is 100
-
-
-
-
 
 
